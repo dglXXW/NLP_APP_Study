@@ -57,3 +57,4 @@ bb = torch.randn([1,21])
 print(len(aa[0]))
 print(bb[0,-1].item())
 print(bb.tolist()[0][len(aa[0]):])
+

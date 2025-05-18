@@ -25,19 +25,18 @@ from langchain.text_splitter import (
 # 创建一个PyPDFLoader实例并加载pdf文档
 loader = PyPDFLoader("/root/autodl-tmp/data/Rag_File/实用程序育儿法.pdf")
 pages = loader.load()
-print(f"整篇pdf的类型为{type(pages)} 长度为{len(pages)}")
+print(f"loader.load()返回类型为{type(pages)} 每一页的类型为{type(pages[0])} 长度为{len(pages)}")
 
-for idx, page in enumerate(pages):
-    if page.page_content:
-        print(
-            f"第{idx}页文档: 该页文档长度：{len(page.page_content)} 元数据为{page.metadata}"
-        )
+# for idx, page in enumerate(pages):
+#     if page.page_content:
+#         print(
+#             f"第{idx}页文档: 该页文档长度：{len(page.page_content)} 元数据为{page.metadata}"
+#         )
 
 """ 分割已加载的Document对象 """
-doc_test = pages[0].page_content
 
-chunk_size = 500
-chunk_overlap = 100
+chunk_size = 200
+chunk_overlap = 20
 
 # 初始化文本分割器
 r_splitter = RecursiveCharacterTextSplitter(
@@ -45,8 +44,10 @@ r_splitter = RecursiveCharacterTextSplitter(
     chunk_size=chunk_size,
     chunk_overlap=chunk_overlap,
 )
-docs_list = r_splitter.split_text(doc_test)
 
-for doc in docs_list: print(len(doc))
+docs_splits = r_splitter.split_documents(pages)
+print(f"分割后文本块数量为{len(docs_splits)}")
 
-print(docs_list)
+for idx in range(5):
+    print(type(docs_splits[idx]))
+    print(docs_splits[idx])
