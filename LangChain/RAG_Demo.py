@@ -4,6 +4,15 @@ from langchain.text_splitter import (
     TokenTextSplitter,
     MarkdownHeaderTextSplitter,
 )
+"""获取API_KEY"""
+import os
+from dotenv import load_dotenv, find_dotenv
+def get_api_key():
+    print('dot_env path = ' + find_dotenv())
+    _ = load_dotenv(find_dotenv())
+    # return os.environ['ZHIPU_API_KEY']
+
+get_api_key()
 
 # text_r_splitter = RecursiveCharacterTextSplitter(
 #     chunk_size=20, chunk_overlap=3, separators=["\n\n", "(?<=。)", "(?<=！)", "(?<=？)", "(?<=，)", "(?<=；)", " ", ""],
@@ -35,19 +44,35 @@ print(f"loader.load()返回类型为{type(pages)} 每一页的类型为{type(pag
 
 """ 分割已加载的Document对象 """
 
-chunk_size = 200
-chunk_overlap = 20
+chunk_size = 500
+chunk_overlap = 100
 
 # 初始化文本分割器
 r_splitter = RecursiveCharacterTextSplitter(
     separators=["(?<=。\n)", "(?<=。)", "(?<=！)", "(?<=？)", "(?<=，)", "(?<=；)", " ", ""],
     chunk_size=chunk_size,
     chunk_overlap=chunk_overlap,
+    is_separator_regex = True
 )
+"""采用split_text分割"""
+# pages_segments = ''
+# for idx in range(5):
+#     pages_segments +=  pages[idx].page_content
 
+# docs_list = r_splitter.split_text(pages_segments)
+# print(f"分割后文本块数量为{len(docs_list)}")
+
+# for idx in range(len(docs_list)):
+#     print(type(docs_list[idx]))
+#     print(docs_list[idx])
+
+"""采用split_documents分割"""
 docs_splits = r_splitter.split_documents(pages)
 print(f"分割后文本块数量为{len(docs_splits)}")
 
-for idx in range(5):
-    print(type(docs_splits[idx]))
-    print(docs_splits[idx])
+# for idx in range(10):
+#     print(type(docs_splits[idx]))
+#     print(docs_splits[idx].page_content)
+
+"""Embedding"""
+from langchain_community.embeddings import ZhipuAIEmbeddings
