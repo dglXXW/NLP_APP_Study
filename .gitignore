@@ -1,1 +1,11 @@
 api_key.env
+chroma_langchain_db/chroma.sqlite3
+chroma_langchain_db/9a5e369e-e2db-4941-8b0b-f9771b94362f/data_level0.bin
+chroma_langchain_db/9a5e369e-e2db-4941-8b0b-f9771b94362f/header.bin
+chroma_langchain_db/9a5e369e-e2db-4941-8b0b-f9771b94362f/length.bin
+chroma_langchain_db/9a5e369e-e2db-4941-8b0b-f9771b94362f/link_lists.bin
+chroma_langchain_db/dc4a7bd9-8977-4b8a-892a-71b96b2455d9/data_level0.bin
+chroma_langchain_db/dc4a7bd9-8977-4b8a-892a-71b96b2455d9/header.bin
+chroma_langchain_db/dc4a7bd9-8977-4b8a-892a-71b96b2455d9/length.bin
+chroma_langchain_db/dc4a7bd9-8977-4b8a-892a-71b96b2455d9/link_lists.bin
+*.pyc
