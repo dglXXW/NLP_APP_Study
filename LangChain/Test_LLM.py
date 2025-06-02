@@ -84,14 +84,15 @@ def getRes_ChatGLM3(user_input):
     ]
         
     """通过API调用本地服务"""
-    # endpoint_url = "http://127.0.0.1:8000/v1/chat/completions"
-    # llm = ChatGLM3(
-    #     endpoint_url=endpoint_url,
-    #     max_tokens=4096,
-    #     top_p=0.9
-    # )
-    """直接加载本地模型"""
-    llm = ChatGLM3(model_path=MODEL_PATH, tokenizer_path=TOKENIZER_PATH ,device="cuda")
+    endpoint_url = "http://127.0.0.1:8000/v1/chat/completions"
+    llm = ChatGLM3(
+        endpoint_url=endpoint_url,
+        max_tokens=4096,
+        top_p=0.9
+    )
+    """直接加载本地模型 
+    TODO 即使加载本地模型，也需要启动服务，为什么？"""
+    # llm = ChatGLM3(model_path=MODEL_PATH, tokenizer_path=TOKENIZER_PATH ,device="cuda")
     response = llm.invoke(messages)
     print(response)
 

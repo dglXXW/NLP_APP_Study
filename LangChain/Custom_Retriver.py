@@ -5,8 +5,7 @@ from GetApiKey import get_api_key
 from langchain_core.vectorstores import InMemoryVectorStore
 import numpy as np
 from langchain_chroma import Chroma
-
-persist_directory = "./chroma_langchain_db"
+from Custom_Splitter import PDFLoader
 
 
 class custom_retiver:
@@ -18,9 +17,30 @@ class custom_retiver:
             persist_directory=persist_directory,
         )
 
+
     def similarity_search(self, query, top_k, filters, **kwargs):
+        """向量数据库有两种基本的索引模式 相似性搜索和最大边际相关性搜索"""
+        # docs = vector_store.max_marginal_relevance_search(question, k=top_k_indexing, fetch_k=5)
+        # docs = vector_store.similarity_search(question, k=top_k_indexing)
         return self.vector_store.similarity_search(query, top_k, filters)
 
+    # batch_size_indexing 向量数据库indexing批次
+    def add_documents(self, pdf_path, batch_size_indexing):
+        # 读取PDF并分割
+        docs_list = PDFLoader(pdf_path)
+        # 数据库存储数据Id
+        docs_ids = []
+        # 根据embedding model每batch最大处理的索引数量设置batch_size_indexing作为迭代步长
+        # 每次批量向数据库中增加batch_size_indexing条数据
+        for i in range(0, len(docs_list), batch_size_indexing):
+            batch_docs = docs_list[i : i + batch_size_indexing]
+
+            docs_ids.extend(vector_store.add_documents(documents=batch_docs))
+
+        return doc_ids
+    
+    def get_vectorDB(self):
+        return self.vector_store
 
 if __name__ == "__main__":
     get_api_key()
