@@ -26,18 +26,21 @@ class custom_retiver:
 
     # batch_size_indexing 向量数据库indexing批次
     def add_documents(self, pdf_path, batch_size_indexing):
+        docs_ids = []
+        if(self.vector_store._collection.count() > 0):
+            return docs_ids
         # 读取PDF并分割
         docs_list = PDFLoader(pdf_path)
         # 数据库存储数据Id
-        docs_ids = []
+        
         # 根据embedding model每batch最大处理的索引数量设置batch_size_indexing作为迭代步长
         # 每次批量向数据库中增加batch_size_indexing条数据
         for i in range(0, len(docs_list), batch_size_indexing):
             batch_docs = docs_list[i : i + batch_size_indexing]
 
-            docs_ids.extend(vector_store.add_documents(documents=batch_docs))
+            docs_ids.extend(self.vector_store.add_documents(documents=batch_docs))
 
-        return doc_ids
+        return docs_ids
     
     def get_vectorDB(self):
         return self.vector_store
